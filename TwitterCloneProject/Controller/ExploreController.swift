@@ -11,7 +11,7 @@ class ExploreController: UIViewController {
     
     // MARK: - Properties
     
-    // Mark: - View LifeCycle
+    // MARK: - LifeCycle
     override func viewDidLoad() {
         super.viewDidLoad()
         
