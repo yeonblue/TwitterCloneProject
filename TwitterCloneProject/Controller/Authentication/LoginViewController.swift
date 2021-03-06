@@ -19,35 +19,46 @@ class LoginViewController: UIViewController {
     }()
     
     private lazy var emailContainerView: UIView = {
-        let emailView = UIView()
-        emailView.backgroundColor = .red
-        emailView.heightAnchor.constraint(equalToConstant: 50).isActive = true
-        
-        let emailImage = UIImageView()
-        emailView.addSubview(emailImage)
-        
-        emailImage.image = #imageLiteral(resourceName: "mail")
-        emailImage.anchor(left: emailView.leftAnchor,
-                          bottom: emailView.bottomAnchor,
-                          paddingLeft: 8, paddingBottom: 8,
-                          width: 24, height: 24)
+        let image = #imageLiteral(resourceName: "ic_mail_outline_white_2x-1")
+        let emailView = Utilites().inputContainerView(withImage: image, textField: emailTextField)
         return emailView
     }()
     
     private lazy var passwordContainerView: UIView = {
-        let passwordView = UIView()
-        passwordView.backgroundColor = .green
-        passwordView.heightAnchor.constraint(equalToConstant: 50).isActive = true
-        
-        let passwordImage = UIImageView()
-        passwordView.addSubview(passwordImage)
-        
-        passwordImage.image = #imageLiteral(resourceName: "ic_lock_outline_white_2x")
-        passwordImage.anchor(left: passwordView.leftAnchor,
-                             bottom: passwordView.bottomAnchor,
-                             paddingLeft: 8, paddingBottom: 8,
-                             width: 24, height: 24)
+        let image = #imageLiteral(resourceName: "ic_mail_outline_white_2x-1")
+        let passwordView = Utilites().inputContainerView(withImage: image, textField: passwordTextField)
         return passwordView
+    }()
+    
+    private let emailTextField: UITextField = {
+        let tf = Utilites().makeTwitterTextField(withPlaceHolder: "Email")
+        return tf
+    }()
+    
+    private let passwordTextField: UITextField = {
+        let tf = Utilites().makeTwitterTextField(withPlaceHolder: "Password")
+        tf.isSecureTextEntry = true
+        return tf
+    }()
+    
+    private let loginButton: UIButton = {
+        let button = UIButton(type: .system)
+        button.setTitle("Log In", for: .normal)
+        button.setTitleColor(.twitterBlue, for: .normal)
+        button.backgroundColor = .white
+        button.heightAnchor.constraint(equalToConstant: 50).isActive = true
+        
+        button.layer.cornerRadius = 10
+        button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 20)
+        
+        button.addTarget(self, action: #selector(loginButtonPressed), for: .touchUpInside)
+        return button
+    }()
+    
+    private let dontHaveAccountButton: UIButton = {
+        let button = Utilites().makeAtrributedButton("Don't have an account?", " Sign Up")
+        button.addTarget(self, action: #selector(showSignUpViewController), for: .touchUpInside)
+        return button
     }()
     
     // MARK: - LifeCycle
@@ -58,6 +69,14 @@ class LoginViewController: UIViewController {
     }
     
     // MARK: - Selectors
+    @objc func loginButtonPressed() {
+        print("Log In Button Preessed")
+    }
+    
+    @objc func showSignUpViewController() {
+        let controller = RegisterViewController()
+        navigationController?.pushViewController(controller, animated: true)
+    }
     
     // MARK: - Helpers
     func configureUI() {
@@ -69,14 +88,23 @@ class LoginViewController: UIViewController {
         logoImageView.centerX(inView: view, topAnchor: view.safeAreaLayoutGuide.topAnchor, paddingTop: 0)
         logoImageView.setDimensions(width: 150, height: 150)
         
-        let stackView = UIStackView(arrangedSubviews: [emailContainerView, passwordContainerView])
+        let stackView = UIStackView(arrangedSubviews: [emailContainerView,
+                                                       passwordContainerView,
+                                                       loginButton])
         stackView.axis = .vertical
-        stackView.spacing = 8
+        stackView.spacing = 20
+        stackView.distribution = .fillEqually
         
         view.addSubview(stackView)
         stackView.anchor(top: logoImageView.bottomAnchor,
                          left: view.leftAnchor,
                          right: view.rightAnchor,
                          paddingLeft: 16, paddingRight: 16)
+        
+        view.addSubview(dontHaveAccountButton)
+        dontHaveAccountButton.anchor(left: view.leftAnchor,
+                                     bottom: view.safeAreaLayoutGuide.bottomAnchor,
+                                     right: view.rightAnchor,
+                                     paddingLeft: 40, paddingRight: 40)
     }
 }
