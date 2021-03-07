@@ -48,6 +48,7 @@ class RegisterViewController: UIViewController {
     
     private let emailTextField: UITextField = {
         let tf = Utilites().makeTwitterTextField(withPlaceHolder: "Email")
+        tf.keyboardType = .asciiCapable
         return tf
     }()
     
@@ -90,7 +91,6 @@ class RegisterViewController: UIViewController {
     // MARK: - LifeCycle
     override func viewDidLoad() {
         super.viewDidLoad()
-
         configureUI()
     }
     
@@ -104,32 +104,24 @@ class RegisterViewController: UIViewController {
     }
     
     @objc func registerButtonPressed() {
-        guard let profileImage = profileImage       else { return }
-        guard let email    = emailTextField.text    else { return }
-        guard let password = passwordTextField.text else { return }
-        guard let fullname = fullNameTextField.text else { return }
-        guard let username = userNameTextField.text else { return }
+        guard let profileImage = profileImage else { return }
+        guard let email    = emailTextField.text, email.count > 0 else { return }
+        guard let password = passwordTextField.text, password.count > 0  else { return }
+        guard let fullname = fullNameTextField.text, fullname.count > 0  else { return }
+        guard let username = userNameTextField.text, username.count > 0  else { return }
+
+        let userInfo = AuthUserInfo(email: email,
+                                    password: password,
+                                    fullname: fullname,
+                                    username: username,
+                                    profileImage: profileImage)
         
-        //print("DEBUG: Email: \(email), Password: \(password)")
-        
-        Auth.auth().createUser(withEmail: email, password: password) { (result, error) in
-            if let error = error {
-                print(error.localizedDescription)
-                return
-            }
+        AuthService.shared.registerUser(userInfo: userInfo) { (error, ref) in
+            guard let window = UIApplication.shared.windows.first(where: {$0.isKeyWindow}) else { return }
+            guard let maintabVC = window.rootViewController as? MainTabController else { return }
+            maintabVC.checkUserisLoginAndConfigureUI()
             
-            guard let uid = result?.user.uid else { return }
-            
-            let values = ["email": email,
-                          "fullname": fullname,
-                          "username": username]
-            
-            // users - uid 아래 dictionary 정보 저장
-            let ref = Database.database().reference().child("users").child(uid)
-            
-            ref.updateChildValues(values) { (error, ref) in
-                print("Successfully updated user info")
-            }
+            self.dismiss(animated: true, completion: nil)
         }
     }
     

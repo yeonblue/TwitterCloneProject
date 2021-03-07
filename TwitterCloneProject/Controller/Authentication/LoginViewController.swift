@@ -64,13 +64,27 @@ class LoginViewController: UIViewController {
     // MARK: - LifeCycle
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
         configureUI()
     }
     
     // MARK: - Selectors
     @objc func loginButtonPressed() {
-        print("Log In Button Preessed")
+        guard let email = emailTextField.text, email.count > 0 else { return }
+        guard let password = passwordTextField.text, password.count > 5 else { return }
+        
+        AuthService.shared.userLogin(email: email, password: password) { (result, error) in
+            if let error = error {
+                print(error.localizedDescription)
+            }
+            
+            // guard let maintabVC = UIApplication.shared.keyWindow?.rootViewController as? MainTabController else { return }
+            guard let window = UIApplication.shared.windows.first(where: {$0.isKeyWindow}) else { return }
+            guard let maintabVC = window.rootViewController as? MainTabController else { return }
+            maintabVC.checkUserisLoginAndConfigureUI()
+            
+            self.dismiss(animated: true, completion: nil)
+        }
     }
     
     @objc func showSignUpViewController() {
