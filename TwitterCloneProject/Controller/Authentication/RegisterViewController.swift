@@ -6,10 +6,14 @@
 //
 
 import UIKit
+import Firebase
 
 class RegisterViewController: UIViewController {
 
     // MARK: - Properties
+    private let imagePickerController = UIImagePickerController()
+    private var profileImage: UIImage?
+    
     private let plusPhotoButton: UIButton = {
         let button = UIButton(type: .system)
         button.setImage(UIImage(named: "plus_photo"), for: .normal)
@@ -96,15 +100,43 @@ class RegisterViewController: UIViewController {
     }
     
     @objc func plusPhotoButtonPressed() {
-        print("add Photo")
+        present(imagePickerController, animated: true, completion: nil)
     }
     
     @objc func registerButtonPressed() {
-        print("register Button Pressed")
+        guard let profileImage = profileImage       else { return }
+        guard let email    = emailTextField.text    else { return }
+        guard let password = passwordTextField.text else { return }
+        guard let fullname = fullNameTextField.text else { return }
+        guard let username = userNameTextField.text else { return }
+        
+        //print("DEBUG: Email: \(email), Password: \(password)")
+        
+        Auth.auth().createUser(withEmail: email, password: password) { (result, error) in
+            if let error = error {
+                print(error.localizedDescription)
+                return
+            }
+            
+            guard let uid = result?.user.uid else { return }
+            
+            let values = ["email": email,
+                          "fullname": fullname,
+                          "username": username]
+            
+            // users - uid 아래 dictionary 정보 저장
+            let ref = Database.database().reference().child("users").child(uid)
+            
+            ref.updateChildValues(values) { (error, ref) in
+                print("Successfully updated user info")
+            }
+        }
     }
     
     // MARK: - Helpers
     func configureUI() {
+        imagePickerController.delegate = self
+        imagePickerController.allowsEditing = true
         view.backgroundColor = .twitterBlue
         view.addSubview(plusPhotoButton)
         
@@ -132,5 +164,23 @@ class RegisterViewController: UIViewController {
                                      bottom: view.safeAreaLayoutGuide.bottomAnchor,
                                      right: view.rightAnchor,
                                      paddingLeft: 40, paddingRight: 40)
+    }
+}
+
+// MARK: - UIImagePickerControllerDelegate
+extension RegisterViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+        guard let profileImage = info[.editedImage] as? UIImage else { return }
+        self.profileImage = profileImage
+        
+        plusPhotoButton.layer.cornerRadius = plusPhotoButton.bounds.height / 2
+        plusPhotoButton.clipsToBounds = true
+        plusPhotoButton.imageView?.contentMode = .scaleAspectFill
+        plusPhotoButton.layer.borderColor = UIColor.white.cgColor
+        plusPhotoButton.layer.borderWidth = 3
+        
+        // renderingMode가 templete일 경우 tintColor 적용 가능
+        self.plusPhotoButton.setImage(profileImage.withRenderingMode(.alwaysOriginal), for: .normal)
+        dismiss(animated: true , completion: nil)
     }
 }
