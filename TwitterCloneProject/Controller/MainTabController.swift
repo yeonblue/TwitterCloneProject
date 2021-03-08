@@ -11,6 +11,17 @@ import Firebase
 class MainTabController: UITabBarController {
 
     // MARK: - Properties
+    
+    var user: User?{
+        didSet{
+            
+            // UserProfileImage가 업데이트 되면 FeedController로 User정보 전달
+            guard let nav = viewControllers?[0] as? UINavigationController else { return }
+            guard let feed = nav.viewControllers.first as? FeedController else { return }
+            feed.user = user
+        }
+    }
+    
     let actionButton: UIButton = {
         let button = UIButton(type: .system)
         button.tintColor = .white
@@ -24,7 +35,7 @@ class MainTabController: UITabBarController {
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .twitterBlue
-        userLogOut()
+        //userLogOut()
         checkUserisLoginAndConfigureUI()
     }
     
@@ -45,6 +56,7 @@ class MainTabController: UITabBarController {
         else {
             configureViewcControllers()
             configureUI()
+            fetchUser()
         }
     }
     
@@ -56,6 +68,11 @@ class MainTabController: UITabBarController {
         }
     }
     
+    func fetchUser() {
+        UserService.shared.fetchUser { (user) in
+            self.user = user
+        }
+    }
     // MARK: - Helpers
     
     func configureUI() {
