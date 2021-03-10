@@ -97,7 +97,7 @@ class MainTabController: UITabBarController {
     }
     
     func configureViewcControllers() {
-        let feedVC = FeedController()
+        let feedVC = FeedController(collectionViewLayout: UICollectionViewFlowLayout())
         let exploreVC = ExploreController()
         let notificationsVC = NotificationController()
         let conversationVC = ConversationController()

@@ -74,7 +74,7 @@ class UploadTweetController: UIViewController {
     
     // MARK: - Helpers
     func configureUI() {
-        view.backgroundColor = .white
+        view.backgroundColor = .lightGray
         configureNavigationBar()
         
         let stackView = UIStackView(arrangedSubviews: [profileImageView,
@@ -89,6 +89,7 @@ class UploadTweetController: UIViewController {
                          paddingTop: 16,
                          paddingLeft: 16,
                          paddingRight: 16)
+
         profileImageView.sd_setImage(with: user.profileImageURL, completed: nil)
     }
     
