@@ -19,8 +19,8 @@ struct TweetService {
                                     "likes": 0,
                                     "retweets": 0,
                                     "caption": caption]
-        REF_TWEETS.childByAutoId().onDisconnectUpdateChildValues(values,
-                                                                 withCompletionBlock: completion)
+        REF_TWEETS.childByAutoId().updateChildValues(values,
+                                                     withCompletionBlock: completion)
     }
     
     func fetchTweets(completion: @escaping(([Tweet]) -> Void)) {

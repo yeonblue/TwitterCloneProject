@@ -30,7 +30,7 @@ class UploadTweetController: UIViewController {
     
     private let profileImageView: UIImageView = {
         let iv = UIImageView()
-        iv.contentMode = .scaleAspectFit
+        iv.contentMode = .scaleAspectFill
         iv.setDimensions(width: 48, height: 48)
         iv.layer.cornerRadius = 48 / 2
         iv.clipsToBounds = true
@@ -74,7 +74,7 @@ class UploadTweetController: UIViewController {
     
     // MARK: - Helpers
     func configureUI() {
-        view.backgroundColor = .lightGray
+        view.backgroundColor = .white
         configureNavigationBar()
         
         let stackView = UIStackView(arrangedSubviews: [profileImageView,
