@@ -21,8 +21,8 @@ class TweetCell: UICollectionViewCell {
         iv.setDimensions(width: 48, height: 48)
         iv.layer.cornerRadius = 48 / 2
         iv.clipsToBounds = true
-        iv.contentMode = .scaleAspectFit
-        iv.backgroundColor = .twitterBlue
+        iv.contentMode = .scaleAspectFill
+        iv.backgroundColor = .white
         return iv
     }()
     
@@ -146,6 +146,10 @@ class TweetCell: UICollectionViewCell {
     // MARK: = Helpers
     func configure() {
         guard let tweet = tweet else { return }
+        let viewModel = TweetViewModel(tweet: tweet)
+        
         captionLabel.text = tweet.caption
+        infoLabel.attributedText = viewModel.userInfoText
+        profileImageView.sd_setImage(with: viewModel.profileImageURL, completed: nil)
     }
 }
