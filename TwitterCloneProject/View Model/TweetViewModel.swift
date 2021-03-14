@@ -14,7 +14,7 @@ struct TweetViewModel {
     var profileImageURL: URL? {
         return tweet.user.profileImageURL
     }
-    
+        
     var timestamp: String {
         let formatter = DateComponentsFormatter()
         formatter.allowedUnits = [.second, .minute, . hour, .day, .weekOfMonth]
@@ -35,7 +35,7 @@ struct TweetViewModel {
         title.append(NSAttributedString(string: " · \(timestamp)",
                                         attributes: [.font: UIFont.systemFont(ofSize: 14),
                                                      .foregroundColor: UIColor.lightGray]))
-        return title
+        return title 
     }
     
     init(tweet: Tweet) {
