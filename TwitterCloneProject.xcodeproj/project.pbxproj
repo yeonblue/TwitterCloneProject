@@ -35,6 +35,8 @@
 		458429E225F25411006E2D72 /* RegisterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 458429E125F25411006E2D72 /* RegisterViewController.swift */; };
 		459532D225FE1AB4005C743D /* ProfileController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 459532D125FE1AB4005C743D /* ProfileController.swift */; };
 		459532E625FE26BC005C743D /* ProfileHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 459532E525FE26BC005C743D /* ProfileHeader.swift */; };
+		459532E925FF778E005C743D /* ProfileFilterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 459532E825FF778E005C743D /* ProfileFilterView.swift */; };
+		459532FD25FF79E5005C743D /* ProfileFilterCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 459532FC25FF79E5005C743D /* ProfileFilterCell.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -68,6 +70,8 @@
 		458429E125F25411006E2D72 /* RegisterViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterViewController.swift; sourceTree = "<group>"; };
 		459532D125FE1AB4005C743D /* ProfileController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileController.swift; sourceTree = "<group>"; };
 		459532E525FE26BC005C743D /* ProfileHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileHeader.swift; sourceTree = "<group>"; };
+		459532E825FF778E005C743D /* ProfileFilterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileFilterView.swift; sourceTree = "<group>"; };
+		459532FC25FF79E5005C743D /* ProfileFilterCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileFilterCell.swift; sourceTree = "<group>"; };
 		5D25EFF94F47A268562FCB16 /* Pods-TwitterCloneProject.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TwitterCloneProject.release.xcconfig"; path = "Target Support Files/Pods-TwitterCloneProject/Pods-TwitterCloneProject.release.xcconfig"; sourceTree = "<group>"; };
 		655C49DA51828DB36DC74EAA /* Pods-TwitterCloneProject.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TwitterCloneProject.debug.xcconfig"; path = "Target Support Files/Pods-TwitterCloneProject/Pods-TwitterCloneProject.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -180,6 +184,8 @@
 				453581AA25F7991700E9B1BD /* CaptionTextField.swift */,
 				453581E325F8FB0400E9B1BD /* TweetCell.swift */,
 				459532E525FE26BC005C743D /* ProfileHeader.swift */,
+				459532E825FF778E005C743D /* ProfileFilterView.swift */,
+				459532FC25FF79E5005C743D /* ProfileFilterCell.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -328,6 +334,7 @@
 				453581E425F8FB0400E9B1BD /* TweetCell.swift in Sources */,
 				4535815E25F63B9700E9B1BD /* UserService.swift in Sources */,
 				458429D425F104DB006E2D72 /* NotificationsController.swift in Sources */,
+				459532FD25FF79E5005C743D /* ProfileFilterCell.swift in Sources */,
 				458429E225F25411006E2D72 /* RegisterViewController.swift in Sources */,
 				453581AB25F7991700E9B1BD /* CaptionTextField.swift in Sources */,
 				4535811D25F388C900E9B1BD /* Utilities.swift in Sources */,
@@ -345,6 +352,7 @@
 				453581E825FC3E1300E9B1BD /* TweetViewModel.swift in Sources */,
 				458429D725F104EB006E2D72 /* ConversationController.swift in Sources */,
 				458429CE25F10471006E2D72 /* FeedController.swift in Sources */,
+				459532E925FF778E005C743D /* ProfileFilterView.swift in Sources */,
 				4535813825F4B64700E9B1BD /* Constants.swift in Sources */,
 				453581C225F8E9FB00E9B1BD /* Tweet.swift in Sources */,
 				453581BF25F7A52500E9B1BD /* TweetService.swift in Sources */,

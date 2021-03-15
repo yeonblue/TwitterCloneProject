@@ -11,6 +11,9 @@ private let reuseIdentifier = "TweetCell"
 private let reuseHeaderIdentifier = "ProfileHeader"
 
 class ProfileController: UICollectionViewController {
+    
+    // MARK: - Vars
+
     // MARK: - Properties
     
     // MARK: - Lifecycle
@@ -23,6 +26,10 @@ class ProfileController: UICollectionViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         navigationController?.navigationBar.isHidden = true
+        
+        // navigation controller 일경우 preferredStatusBarStyle가 동작하지 않음
+        navigationController?.navigationBar.barStyle = .black
+        
     }
     
     // MARK: - Selector
@@ -30,7 +37,7 @@ class ProfileController: UICollectionViewController {
     // MARK: - Helpers
     func configureCollectionView() {
         collectionView.backgroundColor = .white
-        // safearea도 영역에 포함
+        // safearea도 항상 overlap
         collectionView.contentInsetAdjustmentBehavior = .never
         
         collectionView.register(TweetCell.self, forCellWithReuseIdentifier: reuseIdentifier)
@@ -63,7 +70,7 @@ extension ProfileController {
 // MARK: - UICollectionViewDelegateFlowLayout
 extension ProfileController: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
-        return CGSize(width: view.frame.width, height: 300)
+        return CGSize(width: view.frame.width, height: 350)
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
