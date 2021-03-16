@@ -11,12 +11,20 @@ private let reuseIdentifier = "TweetCell"
 private let reuseHeaderIdentifier = "ProfileHeader"
 
 class ProfileController: UICollectionViewController {
-    
-    // MARK: - Vars
 
     // MARK: - Properties
+    private let user: User
     
     // MARK: - Lifecycle
+    init(user: User) {
+        self.user = user
+        super.init(collectionViewLayout: UICollectionViewFlowLayout())
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         configureCollectionView()
@@ -63,6 +71,9 @@ extension ProfileController {
         let header = collectionView.dequeueReusableSupplementaryView(ofKind: kind,
                                                                      withReuseIdentifier: reuseHeaderIdentifier,
                                                                      for: indexPath) as! ProfileHeader
+        header.user = user
+        header.delegate = self
+        
         return header
     }
 }
@@ -75,5 +86,12 @@ extension ProfileController: UICollectionViewDelegateFlowLayout {
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         return CGSize(width: view.frame.width, height: 120)
+    }
+}
+
+// MARK: - ProfileHeaderDelegate
+extension ProfileController: ProfileHeaderDelegate {
+    func handleDismiss() {
+        navigationController?.popViewController(animated: true)
     }
 }

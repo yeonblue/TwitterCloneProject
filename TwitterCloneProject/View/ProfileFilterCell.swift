@@ -10,6 +10,12 @@ import UIKit
 class ProfileFilterCell: UICollectionViewCell {
 
     // MARK: - Properties
+    
+    var option: ProfileFilterOption! {
+        didSet {
+            titleLabel.text = option.description
+        }
+    }
     override var isSelected: Bool {
         didSet {
             titleLabel.font = isSelected ? UIFont.boldSystemFont(ofSize: 16)

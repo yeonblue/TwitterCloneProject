@@ -32,6 +32,12 @@ class FeedController: UICollectionViewController {
         fetchTweets()
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        navigationController?.navigationBar.isHidden = false
+        navigationController?.navigationBar.barStyle = .default
+    }
     // MARK: - API
     func fetchTweets() {
         TweetService.shared.fetchTweets { (tweets) in
@@ -85,11 +91,12 @@ extension FeedController: UICollectionViewDelegateFlowLayout {
 }
 
 // MARK: - TweetCellDelegate
+
+/// TweetCell에서는 FeedController navigation bar에 접근이 어려우므로 delegate pattern으로 구현
 extension FeedController: TweetCellDelegate {
-    
-    /// TweetCell에서는 FeedController navigation bar에 접근이 어려우므로 delegate pattern으로 구현
-    func handleProfileImageTapped() {
-        let controller = ProfileController(collectionViewLayout: UICollectionViewFlowLayout())
+    func handleProfileImageTapped(_ cell: TweetCell) {
+        guard let user = cell.tweet?.user else { return }
+        let controller = ProfileController(user: user)
         navigationController?.pushViewController(controller, animated: true)
     }
 }

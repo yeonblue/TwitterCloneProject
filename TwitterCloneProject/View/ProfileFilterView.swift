@@ -34,8 +34,14 @@ class ProfileFilterView: UIView {
         backgroundColor = .white
         collectionView.register(ProfileFilterCell.self,
                                 forCellWithReuseIdentifier: reuseIdentifier)
+        
+        collectionView.selectItem(at: IndexPath(row: 0, section: 0),
+                                  animated: true,
+                                  scrollPosition: .left)
+        
         addSubview(collectionView)
         collectionView.addConstraintsToFillView(self)
+
         
     }
     
@@ -48,12 +54,16 @@ class ProfileFilterView: UIView {
 
 extension ProfileFilterView: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 3
+        return ProfileFilterOption.allCases.count
     }
 
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: reuseIdentifier,
                                                       for: indexPath) as! ProfileFilterCell
+        
+        let option = ProfileFilterOption(rawValue: indexPath.row)
+        cell.option = option
+        
         return cell
     }
 
@@ -64,7 +74,7 @@ extension ProfileFilterView: UICollectionViewDataSource {
 
 extension ProfileFilterView: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        return CGSize(width: frame.width / 3 , height: frame.height)
+        return CGSize(width: frame.width / CGFloat(ProfileFilterOption.allCases.count) , height: frame.height)
     }
     
     // 위아래 라인 간격
