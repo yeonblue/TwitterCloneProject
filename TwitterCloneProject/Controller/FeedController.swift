@@ -38,6 +38,7 @@ class FeedController: UICollectionViewController {
         navigationController?.navigationBar.isHidden = false
         navigationController?.navigationBar.barStyle = .default
     }
+    
     // MARK: - API
     func fetchTweets() {
         TweetService.shared.fetchTweets { (tweets) in
