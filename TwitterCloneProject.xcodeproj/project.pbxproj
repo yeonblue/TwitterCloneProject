@@ -39,6 +39,8 @@
 		459532FD25FF79E5005C743D /* ProfileFilterCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 459532FC25FF79E5005C743D /* ProfileFilterCell.swift */; };
 		459533002600C156005C743D /* ProfileViewHeaderViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 459532FF2600C156005C743D /* ProfileViewHeaderViewModel.swift */; };
 		45953314260304A2005C743D /* UserTableCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45953313260304A2005C743D /* UserTableCell.swift */; };
+		45953328260334EF005C743D /* TweetController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45953327260334EF005C743D /* TweetController.swift */; };
+		4595333C26035FBA005C743D /* TweetHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4595333B26035FBA005C743D /* TweetHeader.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -76,6 +78,8 @@
 		459532FC25FF79E5005C743D /* ProfileFilterCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileFilterCell.swift; sourceTree = "<group>"; };
 		459532FF2600C156005C743D /* ProfileViewHeaderViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewHeaderViewModel.swift; sourceTree = "<group>"; };
 		45953313260304A2005C743D /* UserTableCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserTableCell.swift; sourceTree = "<group>"; };
+		45953327260334EF005C743D /* TweetController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TweetController.swift; sourceTree = "<group>"; };
+		4595333B26035FBA005C743D /* TweetHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TweetHeader.swift; sourceTree = "<group>"; };
 		5D25EFF94F47A268562FCB16 /* Pods-TwitterCloneProject.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TwitterCloneProject.release.xcconfig"; path = "Target Support Files/Pods-TwitterCloneProject/Pods-TwitterCloneProject.release.xcconfig"; sourceTree = "<group>"; };
 		655C49DA51828DB36DC74EAA /* Pods-TwitterCloneProject.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TwitterCloneProject.debug.xcconfig"; path = "Target Support Files/Pods-TwitterCloneProject/Pods-TwitterCloneProject.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -170,6 +174,7 @@
 				458429D625F104EB006E2D72 /* ConversationController.swift */,
 				4535819625F6500C00E9B1BD /* UploadTweetController.swift */,
 				459532D125FE1AB4005C743D /* ProfileController.swift */,
+				45953327260334EF005C743D /* TweetController.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -192,6 +197,7 @@
 				459532E825FF778E005C743D /* ProfileFilterView.swift */,
 				459532FC25FF79E5005C743D /* ProfileFilterCell.swift */,
 				45953313260304A2005C743D /* UserTableCell.swift */,
+				4595333B26035FBA005C743D /* TweetHeader.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -346,6 +352,7 @@
 				453581AB25F7991700E9B1BD /* CaptionTextField.swift in Sources */,
 				4535811D25F388C900E9B1BD /* Utilities.swift in Sources */,
 				458429A925F0F251006E2D72 /* AppDelegate.swift in Sources */,
+				45953328260334EF005C743D /* TweetController.swift in Sources */,
 				459532D225FE1AB4005C743D /* ProfileController.swift in Sources */,
 				459532E625FE26BC005C743D /* ProfileHeader.swift in Sources */,
 				458429D125F104B2006E2D72 /* ExploreController.swift in Sources */,
@@ -357,6 +364,7 @@
 				458429CB25F0FE2E006E2D72 /* MainTabController.swift in Sources */,
 				458429DE25F25329006E2D72 /* LoginViewController.swift in Sources */,
 				453581E825FC3E1300E9B1BD /* TweetViewModel.swift in Sources */,
+				4595333C26035FBA005C743D /* TweetHeader.swift in Sources */,
 				458429D725F104EB006E2D72 /* ConversationController.swift in Sources */,
 				45953314260304A2005C743D /* UserTableCell.swift in Sources */,
 				458429CE25F10471006E2D72 /* FeedController.swift in Sources */,
