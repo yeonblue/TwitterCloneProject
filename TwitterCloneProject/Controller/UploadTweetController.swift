@@ -81,6 +81,10 @@ class UploadTweetController: UIViewController {
                                                        captionTextView])
         stackView.axis = .horizontal
         stackView.spacing = 12
+        
+        // 이미지뷰, 텍스트뷰 각각 크기 조절 가능. 각각 정해진 크기를 가질 수 있음
+        stackView.alignment = .leading
+        
         view.addSubview(stackView)
         
         stackView.anchor(top: view.safeAreaLayoutGuide.topAnchor,

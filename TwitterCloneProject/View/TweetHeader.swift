@@ -165,7 +165,7 @@ class TweetHeader: UICollectionReusableView {
         captionLabel.anchor(top: stackView.bottomAnchor,
                             left: leftAnchor,
                             right: rightAnchor,
-                            paddingTop: 20,
+                            paddingTop: 12,
                             paddingLeft: 16,
                             paddingRight: 16)
         
@@ -183,19 +183,19 @@ class TweetHeader: UICollectionReusableView {
         statsView.anchor(top: dateLabel.bottomAnchor,
                          left: leftAnchor,
                          right: rightAnchor,
-                         paddingTop: 20, height: 40)
+                         paddingTop: 12, height: 40)
         
         let actionStackView = UIStackView(arrangedSubviews: [commentButton,
-                                                         retweetButton,
-                                                         likeButton,
-                                                         shareButton])
+                                                             retweetButton,
+                                                             likeButton,
+                                                             shareButton])
         actionStackView.axis = .horizontal
         actionStackView.spacing = 70
         actionStackView.distribution = .fillEqually
         
         addSubview(actionStackView)
         actionStackView.centerX(inView: self)
-        actionStackView.anchor(bottom: bottomAnchor, paddingBottom: 12)
+        actionStackView.anchor(top: statsView.bottomAnchor, paddingTop: 12)
     }
     
     required init?(coder: NSCoder) {
