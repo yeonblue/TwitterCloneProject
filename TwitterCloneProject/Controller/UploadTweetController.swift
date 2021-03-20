@@ -7,10 +7,17 @@
 
 import UIKit
 
+enum UploadTweetConfiguration {
+    case tweet
+    case reply(Tweet)
+}
+
 class UploadTweetController: UIViewController {
     
     // MARK: - Properties
     private let user: User
+    private let config: UploadTweetConfiguration
+    private lazy var viewModel = UploadTweetViewModel(config: config)
     
     // 네비게이션 바에 버튼이 추가되고 addTarget이 불려져야 하므로 let이 아닌 lazy var로 선언 필요
     // 따라서 버튼 생성이 필요한 그 때 호출
@@ -37,11 +44,20 @@ class UploadTweetController: UIViewController {
         return iv
     }()
     
+    private lazy var replyLabel: UILabel = {
+        let label = UILabel()
+        label.font = UIFont.systemFont(ofSize: 14)
+        label.textColor = .lightGray
+        label.text = "replaying to @yeonblue"
+        return label
+    }()
+    
     private let captionTextView = CaptionTextView()
     
     // MARK: - LifeCycle
-    init(user: User) {
+    init(user: User, config: UploadTweetConfiguration) {
         self.user = user
+        self.config = config
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -61,7 +77,7 @@ class UploadTweetController: UIViewController {
     
     @objc func handleUploadTweet() {
         guard let caption = captionTextView.text else { return }
-        TweetService.shared.uploadTweet(caption: caption) { (error, ref) in
+        TweetService.shared.uploadTweet(caption: caption, type: config) { (error, ref) in
             if let error = error {
                 print("DEBUG: Tweet Upload Failed with \(error.localizedDescription)")
                 return
@@ -76,15 +92,19 @@ class UploadTweetController: UIViewController {
     func configureUI() {
         view.backgroundColor = .white
         configureNavigationBar()
-        
-        let stackView = UIStackView(arrangedSubviews: [profileImageView,
-                                                       captionTextView])
-        stackView.axis = .horizontal
-        stackView.spacing = 12
+
+        let imageCaptionStackView = UIStackView(arrangedSubviews: [profileImageView,
+                                                                   captionTextView])
+        imageCaptionStackView.axis = .horizontal
+        imageCaptionStackView.spacing = 12
         
         // 이미지뷰, 텍스트뷰 각각 크기 조절 가능. 각각 정해진 크기를 가질 수 있음
-        stackView.alignment = .leading
+        imageCaptionStackView.alignment = .leading
         
+        let stackView = UIStackView(arrangedSubviews: [replyLabel,
+                                                       imageCaptionStackView])
+        stackView.axis = .vertical
+        stackView.spacing = 12
         view.addSubview(stackView)
         
         stackView.anchor(top: view.safeAreaLayoutGuide.topAnchor,
@@ -95,6 +115,13 @@ class UploadTweetController: UIViewController {
                          paddingRight: 16)
 
         profileImageView.sd_setImage(with: user.profileImageURL, completed: nil)
+        
+        tweetButton.setTitle(viewModel.actionButtonTitle, for: .normal)
+        captionTextView.placeholderLabel.text = viewModel.placeholderText
+        replyLabel.isHidden = !viewModel.shouldShowReplyLabel
+        
+        guard let replyText = viewModel.replyText else { return }
+        replyLabel.text = replyText
     }
     
     func configureNavigationBar() {

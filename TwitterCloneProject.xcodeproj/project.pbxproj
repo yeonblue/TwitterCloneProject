@@ -41,6 +41,7 @@
 		45953314260304A2005C743D /* UserTableCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45953313260304A2005C743D /* UserTableCell.swift */; };
 		45953328260334EF005C743D /* TweetController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45953327260334EF005C743D /* TweetController.swift */; };
 		4595333C26035FBA005C743D /* TweetHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4595333B26035FBA005C743D /* TweetHeader.swift */; };
+		4595333F26060D68005C743D /* UploadTweetViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4595333E26060D68005C743D /* UploadTweetViewModel.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -80,6 +81,7 @@
 		45953313260304A2005C743D /* UserTableCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserTableCell.swift; sourceTree = "<group>"; };
 		45953327260334EF005C743D /* TweetController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TweetController.swift; sourceTree = "<group>"; };
 		4595333B26035FBA005C743D /* TweetHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TweetHeader.swift; sourceTree = "<group>"; };
+		4595333E26060D68005C743D /* UploadTweetViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UploadTweetViewModel.swift; sourceTree = "<group>"; };
 		5D25EFF94F47A268562FCB16 /* Pods-TwitterCloneProject.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TwitterCloneProject.release.xcconfig"; path = "Target Support Files/Pods-TwitterCloneProject/Pods-TwitterCloneProject.release.xcconfig"; sourceTree = "<group>"; };
 		655C49DA51828DB36DC74EAA /* Pods-TwitterCloneProject.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TwitterCloneProject.debug.xcconfig"; path = "Target Support Files/Pods-TwitterCloneProject/Pods-TwitterCloneProject.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -184,6 +186,7 @@
 			children = (
 				453581E725FC3E1300E9B1BD /* TweetViewModel.swift */,
 				459532FF2600C156005C743D /* ProfileViewHeaderViewModel.swift */,
+				4595333E26060D68005C743D /* UploadTweetViewModel.swift */,
 			);
 			path = "View Model";
 			sourceTree = "<group>";
@@ -354,6 +357,7 @@
 				458429A925F0F251006E2D72 /* AppDelegate.swift in Sources */,
 				45953328260334EF005C743D /* TweetController.swift in Sources */,
 				459532D225FE1AB4005C743D /* ProfileController.swift in Sources */,
+				4595333F26060D68005C743D /* UploadTweetViewModel.swift in Sources */,
 				459532E625FE26BC005C743D /* ProfileHeader.swift in Sources */,
 				458429D125F104B2006E2D72 /* ExploreController.swift in Sources */,
 				458429DA25F10FDF006E2D72 /* Extensions.swift in Sources */,

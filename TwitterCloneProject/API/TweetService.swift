@@ -11,7 +11,7 @@ import Firebase
 struct TweetService {
     static let shared = TweetService()
     
-    func uploadTweet(caption: String, completion:@escaping(Error?, DatabaseReference) -> Void) {
+    func uploadTweet(caption: String, type: UploadTweetConfiguration, completion:@escaping(DatabaseCompletion)) {
         guard let uid = Auth.auth().currentUser?.uid else { return }
         
         let values:[String: Any] = ["uid": uid,
@@ -20,13 +20,19 @@ struct TweetService {
                                     "retweets": 0,
                                     "caption": caption]
         
-        let ref = REF_TWEETS.childByAutoId()
-        
-        REF_TWEETS.childByAutoId().updateChildValues(values) { (err, ref) in
-            // tweet update 이후 user-tweet에 해당 유저가 작성한 twwet 목록 update
-            guard let twwetID = ref.key else { return }
-            REF_USER_TWEET.child(uid).updateChildValues([twwetID: 1],
-                                                        withCompletionBlock: completion)
+        switch type {
+        case .tweet:
+            let ref = REF_TWEETS.childByAutoId()
+            
+            REF_TWEETS.childByAutoId().updateChildValues(values) { (err, reference) in
+                // tweet update 이후 user-tweet에 해당 유저가 작성한 twwet 목록 update
+                guard let twwetID = ref.key else { return }
+                REF_USER_TWEET.child(uid).updateChildValues([twwetID: 1],
+                                                            withCompletionBlock: completion)
+            }
+        case .reply(let tweet):
+            REF_TWEET_REPLIES.child(tweet.tweetID).childByAutoId().updateChildValues(values,
+                                                                                     withCompletionBlock: completion)
         }
     }
     
@@ -65,4 +71,24 @@ struct TweetService {
             }
         }
     }
+    
+    func fetchReplies(forTweet tweet: Tweet, completion: @escaping ([Tweet]) -> Void) {
+        var tweets = [Tweet]()
+        
+        REF_TWEET_REPLIES.child(tweet.tweetID).observe(.childAdded) { snapshot in
+            guard let dictionary = snapshot.value as? [String: Any] else { return }
+            guard let uid = dictionary["uid"] as? String else { return }
+            
+            let tweetID = snapshot.key
+
+            UserService.shared.fetchUser(uid: uid) { user in
+                let tweet = Tweet(user: user, tweetID: tweetID, dictionary: dictionary)
+                tweets.append(tweet)
+                completion(tweets)
+            }
+            
+            
+         }
+    }
+    
 }
