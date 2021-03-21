@@ -43,6 +43,17 @@ class FeedController: UICollectionViewController {
     func fetchTweets() {
         TweetService.shared.fetchTweets { (tweets) in
             self.tweets = tweets
+            self.checkIfUserLikedTweets(self.tweets)
+        }
+    }
+    
+    func checkIfUserLikedTweets(_ tweets: [Tweet]) {
+        for (index, tweet) in tweets.enumerated() {
+            TweetService.shared.checkIfUserLikedTweet(tweet) { didLike in
+                guard didLike == true else { return }
+                
+                self.tweets[index].didLike = true
+            }
         }
     }
     
@@ -104,6 +115,18 @@ extension FeedController: UICollectionViewDelegateFlowLayout {
 
 /// TweetCell에서는 FeedController navigation bar에 접근이 어려우므로 delegate pattern으로 구현
 extension FeedController: TweetCellDelegate {
+    func handleLikeTapped(_ cell: TweetCell) {
+        guard let tweet = cell.tweet else { return }
+        
+        TweetService.shared.likeTweet(tweet: tweet) { err, ref in
+            cell.tweet?.didLike.toggle()
+            
+            // 파이어베이스 뿐 아니라 현재 화면의 tweet 값도 변경 필요
+            let likes = tweet.didLike ? tweet.likes - 1 : tweet.likes + 1
+            cell.tweet?.likes = likes
+        }
+    }
+    
     func handleReplyTapped(_ cell: TweetCell) {
         guard let tweet = cell.tweet else { return }
         
