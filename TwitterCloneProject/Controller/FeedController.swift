@@ -124,6 +124,10 @@ extension FeedController: TweetCellDelegate {
             // 파이어베이스 뿐 아니라 현재 화면의 tweet 값도 변경 필요
             let likes = tweet.didLike ? tweet.likes - 1 : tweet.likes + 1
             cell.tweet?.likes = likes
+            
+            // like를 눌렀을 때만 upload Notification
+            guard !tweet.didLike else { return }
+            NotificationService.shared.uploadNotification(type: .like, tweet: tweet)
         }
     }
     
@@ -134,7 +138,6 @@ extension FeedController: TweetCellDelegate {
         let nav = UINavigationController(rootViewController: controller)
         nav.modalPresentationStyle = .fullScreen
         present(nav, animated: true, completion: nil)
-        
     }
     
     func handleProfileImageTapped(_ cell: TweetCell) {
