@@ -22,9 +22,8 @@ struct Notification {
     var tweet: Tweet? // follow 관련은 tweet 정보가 없음.
     var type: NotificationType!
     
-    init(user: User, tweet: Tweet?, dictionary: [String: AnyObject]) {
+    init(user: User, dictionary: [String: AnyObject]) {
         self.user = user
-        self.tweet = tweet
         
         self.tweetID = dictionary["tweetID"] as? String ?? ""
         

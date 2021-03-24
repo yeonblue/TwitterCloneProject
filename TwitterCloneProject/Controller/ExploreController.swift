@@ -8,7 +8,6 @@
 import UIKit
 
 private let reuseIdentifier = "UserTableCell"
-
 class ExploreController: UITableViewController {
     
     // MARK: - Properties
