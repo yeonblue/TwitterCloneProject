@@ -79,6 +79,13 @@ class TweetHeader: UICollectionReusableView {
         return button
     }()
     
+    private let replyLabel: UILabel = {
+        let label = UILabel()
+        label.textColor = .lightGray
+        label.font = UIFont.systemFont(ofSize: 12)
+        return label
+    }()
+    
     private lazy var retweetsLabel = UILabel()
     private lazy var likesLabel = UILabel()
     
@@ -158,9 +165,16 @@ class TweetHeader: UICollectionReusableView {
         labelStackView.axis = .vertical
         labelStackView.spacing = -5
         
-        let stackView = UIStackView(arrangedSubviews: [profileImageView,
+        let imageCaptionStackView = UIStackView(arrangedSubviews: [profileImageView,
                                                        labelStackView])
-        stackView.spacing = 12
+        imageCaptionStackView.spacing = 12
+        
+        let stackView = UIStackView(arrangedSubviews: [replyLabel,
+                                                       imageCaptionStackView])
+        
+        stackView.axis = .vertical
+        stackView.spacing = 8
+        stackView.distribution = .fillProportionally
         
         addSubview(stackView)
         stackView.anchor(top: topAnchor,
@@ -251,6 +265,9 @@ class TweetHeader: UICollectionReusableView {
         likesLabel.attributedText = viewModel.likesAttributedString
         likeButton.setImage(viewModel.likeButtonImage, for: .normal)
         likeButton.tintColor = viewModel.likeButtonTintColor
+        
+        replyLabel.isHidden = viewModel.shouldHideReplyLabel
+        replyLabel.text = viewModel.replyText
     }
     
     func createButton(withImageName imageName: String) -> UIButton {

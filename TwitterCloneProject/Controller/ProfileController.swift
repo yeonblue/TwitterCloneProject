@@ -53,6 +53,7 @@ class ProfileController: UICollectionViewController {
         checkIfUserIsFollowed()
         fetchUserStats()
         fetchLikedTweets()
+        fetchReplies()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -90,6 +91,12 @@ class ProfileController: UICollectionViewController {
     func fetchLikedTweets() {
         TweetService.shared.fetchLikes(forUser: user) { tweets in
             self.likedTweets = tweets
+        }
+    }
+    
+    func fetchReplies() {
+        TweetService.shared.fetchReplies(forUser: user) { tweets in
+            self.replies = tweets
         }
     }
     
@@ -131,6 +138,11 @@ extension ProfileController {
         
         return header
     }
+    
+    override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        let controller = TweetController(tweet: currentDataSource[indexPath.row])
+        navigationController?.pushViewController(controller, animated: true)
+    }
 }
 
 // MARK: - UICollectionViewDelegateFlowLayout
@@ -143,8 +155,13 @@ extension ProfileController: UICollectionViewDelegateFlowLayout {
         
         // apply Dynamic Cell
         let viewModel = TweetViewModel(tweet: currentDataSource[indexPath.row])
-        let height = viewModel.size(forwidth: view.frame.width).height
-        return CGSize(width: view.frame.width, height: height + 70)
+        var height = viewModel.size(forwidth: view.frame.width).height + 70
+        
+        if currentDataSource[indexPath.row].isReply {
+            height += 20
+        }
+        
+        return CGSize(width: view.frame.width, height: height)
     }
 }
 
