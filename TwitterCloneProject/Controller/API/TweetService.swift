@@ -41,17 +41,27 @@ struct TweetService {
     
     func fetchTweets(completion: @escaping(([Tweet]) -> Void)) {
         var tweets = [Tweet]()
+        guard let currentUid = Auth.auth().currentUser?.uid else { return }
         
-        // .childAdded 자식이 추가된 그 노드를 끌고 옴. (데이터를 추가하고 fetch를 바로 하기 때문에 사용 가능)
-        REF_TWEETS.observe(.childAdded) { (snapshot) in
-            guard let dictionary = snapshot.value as? [String: Any] else { return }
-            guard let uid = dictionary["uid"] as? String else { return }
-            let tweetID = snapshot.key
+        REF_USER_FOLLOWERS.child(currentUid).observe(.childAdded) { snapshot in
+            let followingUid = snapshot.key
             
-            UserService.shared.fetchUser(uid: uid) { user in
-                let tweet = Tweet(user: user, tweetID: tweetID, dictionary: dictionary)
-                tweets.append(tweet)
-                completion(tweets)
+            REF_USER_TWEET.child(followingUid).observe(.childAdded) { snapshot in
+                let tweetID = snapshot.key
+                
+                self.fetchTweet(withTweetId: tweetID) { tweet in
+                    tweets.append(tweet)
+                    completion(tweets)
+                }
+            }
+            
+            REF_USER_TWEET.child(currentUid).observe(.childAdded) { snapshot in
+                let tweetID = snapshot.key
+                
+                self.fetchTweet(withTweetId: tweetID) { tweet in
+                    tweets.append(tweet)
+                    completion(tweets)
+                }
             }
         }
     }
