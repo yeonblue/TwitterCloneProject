@@ -12,7 +12,7 @@ class LoginViewController: UIViewController {
     // MARK: - Properties
     private let logoImageView: UIImageView = {
         let logo = UIImageView()
-        logo.contentMode = .scaleAspectFit
+        logo.contentMode = .scaleAspectFill
         logo.clipsToBounds = true
         logo.image = #imageLiteral(resourceName: "TwitterLogo")
         return logo

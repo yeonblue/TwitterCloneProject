@@ -1,5 +1,5 @@
 //
-//  CaptionTextField.swift
+//  InputTextView.swift
 //  TwitterCloneProject
 //
 //  Created by yeonBlue on 2021/03/09.
@@ -7,7 +7,7 @@
 
 import UIKit
 
-class CaptionTextView: UITextView {
+class InputTextView: UITextView {
     
     // MARK: - Properties
     let placeholderLabel: UILabel = {

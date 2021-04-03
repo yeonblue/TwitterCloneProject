@@ -19,7 +19,7 @@ class ActionSheetCell: UITableViewCell {
     
     private let optionImageView: UIImageView = {
         let imageView = UIImageView()
-        imageView.contentMode = .scaleAspectFit
+        imageView.contentMode = .scaleAspectFill
         imageView.clipsToBounds = true
         imageView.image = #imageLiteral(resourceName: "TwitterLogo")
         return imageView
