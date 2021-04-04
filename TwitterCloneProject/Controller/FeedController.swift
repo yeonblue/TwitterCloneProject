@@ -133,6 +133,13 @@ extension FeedController: UICollectionViewDelegateFlowLayout {
 
 /// TweetCell에서는 FeedController navigation bar에 접근이 어려우므로 delegate pattern으로 구현
 extension FeedController: TweetCellDelegate {
+    func handleFetchUser(withUserName username: String) {
+        UserService.shared.fetchUser(withUserName: username) { user in
+            let controller = ProfileController(user: user)
+            self.navigationController?.pushViewController(controller, animated: true)
+        }
+    }
+    
     func handleLikeTapped(_ cell: TweetCell) {
         guard let tweet = cell.tweet else { return }
         
