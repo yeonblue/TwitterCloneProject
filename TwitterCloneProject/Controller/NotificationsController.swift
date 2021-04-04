@@ -22,7 +22,7 @@ class NotificationController: UITableViewController {
     // MARK: - LifeCycle
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+
         configureUI()
         fetchNotifications()
     }
@@ -52,11 +52,16 @@ class NotificationController: UITableViewController {
     }
     
     func checkIfUserIsFollowed(_ notifications: [Notification]) {
-        for (index, notification) in notifications.enumerated() {
+        
+        guard !notifications.isEmpty else { return }
+        
+        notifications.forEach { notification in
             
-            if case .follow = notification.type {
-                let user = notification.user
-                UserService.shared.checkIfUserIsFollowed(uid: user.uid) { isFollow in
+            guard case .follow = notification.type else { return }
+            let user = notification.user
+            
+            UserService.shared.checkIfUserIsFollowed(uid: user.uid) { isFollow in
+                if let index = self.notifications.firstIndex(where: { $0.user.uid == notification.user.uid }){
                     self.notifications[index].user.isFollowed = isFollow
                 }
             }
@@ -70,6 +75,7 @@ class NotificationController: UITableViewController {
         
         tableView.register(NotificationCell.self, forCellReuseIdentifier: reuseIdentifier)
         tableView.rowHeight = 60
+        tableView.separatorStyle = .none
         
         let refreshController = UIRefreshControl()
         tableView.refreshControl = refreshController

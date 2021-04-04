@@ -8,9 +8,16 @@
 import UIKit
 import Firebase
 
+enum ActionButtonConfigureation {
+    case tweet
+    case message
+}
+
 class MainTabController: UITabBarController {
 
     // MARK: - Properties
+    
+    private var buttonConfig: ActionButtonConfigureation = .tweet
     
     var user: User?{
         didSet{
@@ -35,15 +42,23 @@ class MainTabController: UITabBarController {
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .twitterBlue
-        //userLogOut()
         checkUserisLoginAndConfigureUI()
     }
     
     // MARK: - Selectors
     @objc func actionButtonTapped() {
-        guard let user = user else { return }
-        let nav = UINavigationController(rootViewController: UploadTweetController(user: user,
-                                                                                   config: .tweet))
+        let controller: UIViewController
+        
+        switch buttonConfig {
+        case .tweet:
+            guard let user = user else { return }
+            controller = UploadTweetController(user: user,
+                                               config: .tweet)
+        case .message:
+            controller = SearchController(config: .messages)
+        }
+
+        let nav = UINavigationController(rootViewController: controller)
         nav.modalPresentationStyle = .fullScreen
         present(nav, animated: true, completion: nil)
     }
@@ -63,15 +78,7 @@ class MainTabController: UITabBarController {
             fetchUser()
         }
     }
-    
-    func userLogOut() {
-        do {
-            try Auth.auth().signOut()
-        } catch let error {
-            print(error.localizedDescription)
-        }
-    }
-    
+
     func fetchUser() {
         guard let uid = Auth.auth().currentUser?.uid else { return }
         UserService.shared.fetchUser(uid: uid) { (user) in
@@ -81,26 +88,20 @@ class MainTabController: UITabBarController {
     // MARK: - Helpers
     
     func configureUI() {
+        self.delegate = self
         view.addSubview(actionButton)
-        
-//        actionButton.translatesAutoresizingMaskIntoConstraints = false
-//        actionButton.heightAnchor.constraint(equalToConstant: 56).isActive = true
-//        actionButton.widthAnchor.constraint(equalToConstant: 56).isActive = true
-//        actionButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -64).isActive = true
-//        actionButton.rightAnchor.constraint(equalTo: view.safeAreaLayoutGuide.rightAnchor, constant: -16).isActive = true
         
         actionButton.anchor(bottom: view.safeAreaLayoutGuide.bottomAnchor,
                             right: view.safeAreaLayoutGuide.rightAnchor,
                             paddingBottom: 64, paddingRight: 16,
                             width: 56, height: 56)
         
-        
         actionButton.layer.cornerRadius = 56 / 2
     }
     
     func configureViewcControllers() {
         let feedVC = FeedController(collectionViewLayout: UICollectionViewFlowLayout())
-        let exploreVC = ExploreController()
+        let exploreVC = SearchController(config: .userSearch)
         let notificationsVC = NotificationController()
         let conversationVC = ConversationController()
         
@@ -122,5 +123,16 @@ class MainTabController: UITabBarController {
         naviVC.tabBarItem.image = image
         naviVC.navigationBar.tintColor = .white
         return naviVC
+    }
+}
+
+extension MainTabController: UITabBarControllerDelegate {
+    func tabBarController(_ tabBarController: UITabBarController, didSelect viewController: UIViewController) {
+        let index = viewControllers?.firstIndex(of: viewController)
+        
+        let image = index == 3 ? #imageLiteral(resourceName: "mail") : #imageLiteral(resourceName: "new_tweet")
+        self.actionButton.setImage(image, for: .normal)
+        
+        buttonConfig = index == 3 ? .message : .tweet
     }
 }

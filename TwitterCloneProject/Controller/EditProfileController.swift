@@ -11,6 +11,7 @@ private let reuseIdentifier = "EditProfileCell"
 
 protocol EditProfileControllerDelegate: class {
     func controller(_ controller: EditProfileController, wantsToUpdate user: User)
+    func handleLogout()
 }
 
 class EditProfileController: UITableViewController {
@@ -18,13 +19,14 @@ class EditProfileController: UITableViewController {
     // MARK: - Properties
     private var user: User
     private lazy var headerView = EditProfileHeader(user: user)
+    private let footerView = EditProfileFooter(frame: .zero)
     private let imagePickerController = UIImagePickerController()
     private var selectedImage: UIImage? {
         didSet {
             headerView.profileImageView.image = selectedImage
         }
     }
-    
+ 
     private var userInfoChanged: Bool = false
     private var imageChanged: Bool {
         return selectedImage != nil
@@ -110,10 +112,11 @@ class EditProfileController: UITableViewController {
     func configureTableView() {
         tableView.tableHeaderView = headerView
         headerView.frame = CGRect(x: 0, y: 0, width: view.frame.width, height: 150)
-        
-        // 불필요한 seperator 제거용
-        tableView.tableFooterView = UIView()
         headerView.delegate = self
+        
+        footerView.frame = CGRect(x: 0, y: 0, width: view.frame.width, height: 50)
+        tableView.tableFooterView = footerView
+        footerView.delegate = self
         
         tableView.register(EditProfileCell.self, forCellReuseIdentifier: reuseIdentifier)
     }
@@ -181,5 +184,26 @@ extension EditProfileController: EditProfileCellDelegate {
         case .bio:
             user.bio = cell.bioTextView.text
         }
+    }
+}
+
+// MARK: - EditProfileFooterDelegate
+extension EditProfileController: EditProfileFooterDelegate {
+    func handleLogout() {
+        let alert = UIAlertController(title: nil,
+                                      message: "Are you sure you want to Logout",
+                                      preferredStyle: .actionSheet)
+        
+        let cancelButton = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
+        let okButton = UIAlertAction(title: "Logout", style: .destructive) { _ in
+            self.dismiss(animated: true) {
+                self.delegate?.handleLogout()
+            }
+        }
+        
+        alert.addAction(cancelButton)
+        alert.addAction(okButton)
+        
+        present(alert, animated: true, completion: nil)
     }
 }
